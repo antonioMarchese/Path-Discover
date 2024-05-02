@@ -2,14 +2,23 @@
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CaretDown } from "@phosphor-icons/react";
+import { useMazeStore } from "@/store/useMazeStore";
 
 const itemClass =
   "rounded-[3px] flex items-center p-2 select-none outline-none data-[disabled]:pointer-events-none cursor-pointer hover:bg-zinc-200";
 
 export default function Header() {
+  const { solve } = useMazeStore();
   return (
     <header className="w-full bg-zinc-900 p-5 text-white flex items-center justify-between">
       <h3 className="font-bold text-lg">Pathdiscover Visualizer</h3>
+      <button
+        onClick={solve}
+        type="button"
+        className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md"
+      >
+        Visualize
+      </button>
       <ul className="list-none flex items-center justify-between">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger className="p-2 text-base font-semibold outline-none flex items-center gap-2 group">

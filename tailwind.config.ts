@@ -16,6 +16,7 @@ const config: Config = {
       animation: {
         fadeIn: "show 150ms linear",
         fadeOut: "hide 150ms linear",
+        grow: "growUp 500ms ease-in",
       },
       keyframes: {
         show: {
@@ -25,6 +26,10 @@ const config: Config = {
         hide: {
           "0%": { opacity: "100", height: "130px" },
           "100%": { opacity: "0", height: "0" },
+        },
+        growUp: {
+          "0%": { transform: "scale(0)" },
+          "100%": { transform: "scale(1)" },
         },
       },
     },
