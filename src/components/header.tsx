@@ -3,17 +3,49 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CaretDown } from "@phosphor-icons/react";
 import { useMazeStore } from "@/store/useMazeStore";
+import Maze from "@/solvers/maze";
+import { CandidatesProps, Coordinates } from "@/utils";
+import Node from "@/solvers/node";
 
 const itemClass =
   "rounded-[3px] flex items-center p-2 select-none outline-none data-[disabled]:pointer-events-none cursor-pointer hover:bg-zinc-200";
 
 export default function Header() {
-  const { solve } = useMazeStore();
+  const { cells, setCellValue } = useMazeStore();
+
+  function solveMaze() {
+    const solver = new Maze(cells);
+    solver.solve();
+    console.info(solver.start);
+    console.info(solver.exploredPath);
+    for (const node of solver.exploredPath) {
+      setTimeout(() => {
+        if (
+          cells[node.row][node.col].value !== "A" &&
+          cells[node.row][node.col].value !== "B"
+        ) {
+          setCellValue(node.row, node.col, "E");
+        }
+      }, 800);
+    }
+    console.info(solver.solution.cells);
+    for (const node of solver.solution.cells) {
+      setTimeout(() => {
+        if (
+          cells[node.row][node.col].value !== "A" &&
+          cells[node.row][node.col].value !== "B"
+        )
+          setCellValue(node.row, node.col, "S");
+      }, 800);
+    }
+    console.info({ cells });
+  }
+
   return (
     <header className="w-full bg-zinc-900 p-5 text-white flex items-center justify-between">
       <h3 className="font-bold text-lg">Pathdiscover Visualizer</h3>
       <button
-        onClick={solve}
+        onClick={solveMaze}
         type="button"
         className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md"
       >

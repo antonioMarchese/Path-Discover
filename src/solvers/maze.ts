@@ -13,7 +13,7 @@ export default class Maze {
   target: Coordinates | null;
   solution: any;
   exploredNum: number;
-  frontier: QueueFrontier;
+  frontier: QueueFrontier | StackFrontier;
   exploredPath: Array<Coordinates>;
 
   constructor(maze: CellProps[][]) {
@@ -27,7 +27,7 @@ export default class Maze {
     }
 
     this.maze = maze;
-    this.frontier = new QueueFrontier();
+    this.frontier = new StackFrontier();
     this.width = maze.length;
     this.height = maze[0].length;
     this.start = this.target = this.solution = null;
@@ -87,9 +87,10 @@ export default class Maze {
     );
   }
 
-  async solve() {
+  solve() {
     //  Initialize frotier to just the starting position
     const startNode = new Node(this.start!, null, null);
+    startNode.isStart = true;
     this.frontier.add(startNode);
 
     //  Keep looping until solution found
@@ -107,6 +108,7 @@ export default class Maze {
         node.state.col === this.target?.col &&
         node.state.row === this.target?.row
       ) {
+        node.isTarget = true;
         let actions: any[] = [];
         let cells: Coordinates[] = [];
 

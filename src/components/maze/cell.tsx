@@ -50,7 +50,7 @@ export default function Cell({ value, row, col, mouseDown }: CellGridProps) {
         {
           "bg-red-500 animate-grow z-10": value === "E",
           "bg-yellow-400 animate-grow z-10": value === "S",
-          "bg-zinc-900 hover:bg-zinc-800 ": value === null,
+          // "bg-zinc-900 hover:bg-zinc-800 ": value === null,
         }
       )}
     >

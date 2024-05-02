@@ -8,8 +8,8 @@ import { create } from "zustand";
 export type MazeStoreState = {
   cells: CellProps[][];
   changeCellValue: (row: number, col: number, value: CellTypes) => void;
+  setCellValue: (row: number, col: number, value: CellTypes) => void;
   clearCells: () => void;
-  solve: () => void;
 };
 
 export const useMazeStore = create<MazeStoreState>((set, get) => ({
@@ -36,39 +36,12 @@ export const useMazeStore = create<MazeStoreState>((set, get) => ({
 
       return { cells: newCells };
     }),
-  clearCells: () => set({ cells: initialGrid }),
+  setCellValue: (row: number, col: number, value: CellTypes) =>
+    set((state) => {
+      const newCells = state.cells.slice();
+      newCells[row][col].value = value;
 
-  solve: async () => {
-    const newCells = get().cells.map((cellsRow) =>
-      cellsRow.map((cell) => ({ ...cell }))
-    );
-    const solver = new Maze(newCells);
-    console.info("Solving maze");
-    await solver.solve().then(() => {
-      try {
-        const explored = solver.exploredPath;
-        const solutionCells = solver.solution.cells;
-        explored.forEach((coord) => {
-          const cell = newCells[coord.row][coord.col];
-          try {
-            if (cell.value !== "A" && cell.value !== "B") {
-              cell.value = "E";
-            }
-          } catch {}
-        });
-        solutionCells.forEach((coord: Coordinates) => {
-          try {
-            const cell = newCells[coord.row][coord.col];
-            if (cell.value !== "A" && cell.value !== "B") {
-              cell.value = "S";
-            }
-          } catch (error) {}
-        });
-      } catch {
-        console.error("Error solving maze");
-      } finally {
-        set((state) => ({ cells: newCells }));
-      }
-    });
-  },
+      return { cells: newCells };
+    }),
+  clearCells: () => set({ cells: initialGrid }),
 }));

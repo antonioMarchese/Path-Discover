@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Cell from "./cell";
-import { CellProps, useMazeStore } from "@/store/useMazeStore";
+import { useMazeStore } from "@/store/useMazeStore";
+import { CellProps } from "@/utils";
 
 export default function Grid() {
   const [isMouseDown, setIsMouseDown] = useState(false);

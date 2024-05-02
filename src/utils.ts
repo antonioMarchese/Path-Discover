@@ -64,7 +64,13 @@ export function generateCandidates(state: Coordinates): CandidatesProps[] {
     },
   ];
 
-  return candidates;
+  return candidates.filter(
+    (candidate) =>
+      candidate.coordinates.row >= 0 &&
+      candidate.coordinates.col >= 0 &&
+      candidate.coordinates.row <= 9 &&
+      candidate.coordinates.col <= 9
+  );
 }
 
 //  Maze utils
