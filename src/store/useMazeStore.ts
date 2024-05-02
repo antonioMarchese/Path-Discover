@@ -19,6 +19,7 @@ const initialGrid: CellProps[][] = Array.from({ length: rows }, () =>
 export type MazeStoreState = {
   cells: CellProps[][];
   changeCellValue: (row: number, col: number, value: CellTypes) => void;
+  clearCells: () => void;
 };
 
 export const useMazeStore = create<MazeStoreState>((set) => ({
@@ -45,4 +46,5 @@ export const useMazeStore = create<MazeStoreState>((set) => ({
 
       return { cells: newCells };
     }),
+  clearCells: () => set({ cells: initialGrid }),
 }));
