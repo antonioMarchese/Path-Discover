@@ -1,5 +1,5 @@
 import { CellTypes } from "@/components/maze/cell";
-import { AlgorithmsProps, CellProps, Coordinates, initialGrid } from "@/utils";
+import { AlgorithmsProps, CellProps, initialGrid } from "@/utils";
 import { create } from "zustand";
 
 export type MazeStoreState = {
@@ -9,7 +9,6 @@ export type MazeStoreState = {
   setAlgorithm: (algorithm: AlgorithmsProps) => void;
   changeCellValue: (row: number, col: number, value: CellTypes) => void;
   setCellValue: (row: number, col: number, value: CellTypes) => void;
-  clearCells: () => void;
 };
 
 export const useMazeStore = create<MazeStoreState>((set, get) => ({
@@ -45,10 +44,11 @@ export const useMazeStore = create<MazeStoreState>((set, get) => ({
     }),
   setCellValue: (row: number, col: number, value: CellTypes) =>
     set((state) => {
-      const newCells = state.cells.slice();
+      const newCells = state.cells.map((cellsRow) =>
+        cellsRow.map((cell) => ({ ...cell }))
+      );
       newCells[row][col].value = value;
 
       return { cells: newCells };
     }),
-  clearCells: () => set({ cells: initialGrid }),
 }));

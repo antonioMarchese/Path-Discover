@@ -28,9 +28,9 @@ const config: Config = {
           "100%": { opacity: "0", height: "0" },
         },
         growUp: {
-          "0%": { transform: "scale(0)", opacity: "0" },
+          "0%": { transform: "scale(0)", "border-radius": "20px" },
           "50%": { opacity: "50" },
-          "100%": { transform: "scale(1)", opacity: "100" },
+          "100%": { transform: "scale(1)", "border-radius": "0" },
         },
       },
     },

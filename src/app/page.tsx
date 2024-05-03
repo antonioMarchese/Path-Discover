@@ -1,13 +1,13 @@
 import ElementsSelector from "@/components/elements/elementsSelector";
 import Header from "@/components/header";
-import Maze from "@/components/maze";
+import Grid from "@/components/maze/grid";
 
 export default function Home() {
   return (
-    <main className="w-full max-w-5xl flex flex-col items-center justify-start">
+    <main className="w-full flex flex-col items-center justify-start">
       <Header />
       <ElementsSelector />
-      <Maze />
+      <Grid />
     </main>
   );
 }

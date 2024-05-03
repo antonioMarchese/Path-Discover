@@ -28,8 +28,8 @@ export default class Maze {
 
     this.maze = maze;
     this.frontier = frontier;
-    this.width = maze.length;
-    this.height = maze[0].length;
+    this.height = maze.length;
+    this.width = maze[0].length;
     this.start = this.target = this.solution = null;
     this.exploredNum = 0;
     this.exploredPath = new Array();
@@ -62,7 +62,11 @@ export default class Maze {
 
   neighbors(state: Coordinates): CandidatesProps[] {
     //  Get all possible actions
-    const candidates: CandidatesProps[] = generateCandidates(state);
+    const candidates: CandidatesProps[] = generateCandidates(
+      state,
+      this.width,
+      this.height
+    );
 
     //  Ensure actions are valid
     const actions: CandidatesProps[] = candidates.reduce((acc, candidate) => {

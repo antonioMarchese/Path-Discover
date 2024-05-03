@@ -4,6 +4,9 @@ import { CellTypes } from "./components/maze/cell";
 import solverBFS from "./solvers/BFS";
 import solverDFS from "./solvers/DFS";
 
+const WIDTH = 20;
+const HEIGHT = 20;
+
 export interface Coordinates {
   row: number;
   col: number;
@@ -19,7 +22,7 @@ export interface AlgorithmsProps {
   solver: (
     cells: CellProps[][],
     setCellValue: (row: number, col: number, value: CellTypes) => void
-  ) => void;
+  ) => Promise<void>;
 }
 
 export const selectElements: ElementProps[] = [
@@ -55,7 +58,11 @@ export const algorithms: AlgorithmsProps[] = [
   },
 ];
 
-export function generateCandidates(state: Coordinates): CandidatesProps[] {
+export function generateCandidates(
+  state: Coordinates,
+  width: number,
+  height: number
+): CandidatesProps[] {
   const { row, col } = state;
 
   const candidates: CandidatesProps[] = [
@@ -93,8 +100,8 @@ export function generateCandidates(state: Coordinates): CandidatesProps[] {
     (candidate) =>
       candidate.coordinates.row >= 0 &&
       candidate.coordinates.col >= 0 &&
-      candidate.coordinates.row <= rows - 1 &&
-      candidate.coordinates.col <= columns - 1
+      candidate.coordinates.row <= height - 1 &&
+      candidate.coordinates.col <= width - 1
   );
 }
 
@@ -109,6 +116,19 @@ export interface CellProps {
 const initialCell: CellProps = {
   value: null,
 };
+
+export function generateInitialMaze(
+  titleRefOffset: number,
+  pageWidth: number,
+  pageHeight: number
+): CellProps[][] {
+  const initialRows = Math.floor((pageHeight - titleRefOffset - 48) / HEIGHT);
+  const initialCols = Math.floor((pageWidth - 16) / WIDTH);
+  const initialMaze = Array.from({ length: initialRows }, () =>
+    new Array(initialCols).fill(initialCell)
+  );
+  return initialMaze;
+}
 
 export const initialGrid: CellProps[][] = Array.from({ length: rows }, () =>
   new Array(columns).fill(initialCell)

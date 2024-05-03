@@ -19,15 +19,15 @@ export default async function generalSolver(
     ) {
       setCellValue(node.row, node.col, "E");
     }
-    await delay(100);
+    await delay(50);
   }
   for (let node of solver.solution.cells) {
-    setTimeout(() => {
-      if (
-        cells[node.row][node.col].value !== "A" &&
-        cells[node.row][node.col].value !== "B"
-      )
-        setCellValue(node.row, node.col, "S");
-    }, 1000);
+    if (
+      cells[node.row][node.col].value !== "A" &&
+      cells[node.row][node.col].value !== "B"
+    ) {
+      setCellValue(node.row, node.col, "S");
+    }
+    await delay(100);
   }
 }

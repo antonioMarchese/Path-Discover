@@ -3,7 +3,14 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CaretDown } from "@phosphor-icons/react";
 import { useMazeStore } from "@/store/useMazeStore";
-import { algorithms, customMaze } from "@/utils";
+import {
+  Coordinates,
+  algorithms,
+  customMaze,
+  generateInitialMaze,
+} from "@/utils";
+import { useCallback } from "react";
+import recursiveDivisionMaze from "@/app/mazes/recursive";
 import delay from "@/delay";
 
 const itemClass =
@@ -13,6 +20,20 @@ export default function Header() {
   const { cells, setCellValue, algorithm, setAlgorithm, setCells } =
     useMazeStore();
 
+  const calculateInitialMazeDimensions = useCallback(() => {
+    const titleRef = document.getElementById("grid-title");
+    if (titleRef) {
+      const { innerWidth: pageWidth, innerHeight: pageHeight } = window;
+      const titleRefOffset = titleRef.offsetTop;
+      const initialMaze = generateInitialMaze(
+        titleRefOffset,
+        pageWidth,
+        pageHeight
+      );
+      setCells(initialMaze);
+    }
+  }, [setCells, generateInitialMaze]);
+
   async function solveMaze() {
     if (algorithm) {
       await algorithm.solver(cells, setCellValue);
@@ -20,16 +41,32 @@ export default function Header() {
   }
 
   async function handleGenerateMaze() {
-    setCells(customMaze);
+    calculateInitialMazeDimensions();
+    const wallsCoord: Coordinates[] = [];
+    recursiveDivisionMaze(
+      cells,
+      1,
+      cells.length - 2,
+      1,
+      cells[0].length - 2,
+      "horizontal",
+      false,
+      "wall",
+      wallsCoord
+    );
+    for (const { row, col } of wallsCoord) {
+      setCellValue(row, col, "#");
+      await delay(10);
+    }
   }
 
   return (
-    <header className="w-full bg-zinc-900 p-5 text-white flex items-center justify-between">
+    <header className="w-full bg-zinc-900 p-5 text-white flex items-center justify-between flex-wrap">
       <h3 className="font-bold text-lg">Pathdiscover Visualizer</h3>
       <button
-        onClick={() => handleGenerateMaze()}
+        onClick={handleGenerateMaze}
         type="button"
-        className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md "
+        className="text-sm px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md "
       >
         Generate Maze
       </button>
@@ -37,7 +74,7 @@ export default function Header() {
         disabled={!algorithm}
         onClick={solveMaze}
         type="button"
-        className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md disabled:cursor-not-allowed disabled:opacity-55"
+        className="flex items-center justify-center gap-2 text-sm px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md disabled:cursor-not-allowed disabled:opacity-55"
       >
         Visualize
         {algorithm && <p>{algorithm.name}</p>}

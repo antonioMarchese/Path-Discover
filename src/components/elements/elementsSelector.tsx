@@ -2,11 +2,26 @@
 
 import { ArrowCounterClockwise } from "@phosphor-icons/react";
 import Element from "./element";
-import { selectElements } from "@/utils";
+import { generateInitialMaze, selectElements } from "@/utils";
 import { useMazeStore } from "@/store/useMazeStore";
+import { useCallback } from "react";
 
 export default function ElementsSelector() {
-  const { clearCells } = useMazeStore();
+  const { setCells } = useMazeStore();
+
+  const calculateInitialMazeDimensions = useCallback(() => {
+    const titleRef = document.getElementById("grid-title");
+    if (titleRef) {
+      const { innerWidth: pageWidth, innerHeight: pageHeight } = window;
+      const titleRefOffset = titleRef.offsetTop;
+      const initialMaze = generateInitialMaze(
+        titleRefOffset,
+        pageWidth,
+        pageHeight
+      );
+      setCells(initialMaze);
+    }
+  }, [setCells, generateInitialMaze]);
 
   return (
     <div className="w-full py-2 flex items-center justify-between text-white">
@@ -19,7 +34,7 @@ export default function ElementsSelector() {
         />
       ))}
       <button
-        onClick={clearCells}
+        onClick={calculateInitialMazeDimensions}
         type="button"
         className="flex items-center justify-start gap-2 px-5 py-2 rounded-md text-white cursor-pointer hover:bg-zinc-800 group"
       >

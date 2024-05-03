@@ -46,7 +46,7 @@ export default function Cell({ value, row, col, mouseDown }: CellGridProps) {
       onMouseEnter={handleMouseEnter}
       type="button"
       className={clsx(
-        "flex items-center justify-center border border-1 border-zinc-200 w-8 h-8 cursor-pointer p-0",
+        "flex items-center justify-center border border-1 border-zinc-200 w-5 h-5 cursor-pointer p-0",
         {
           "bg-red-500 animate-grow z-10": value === "E",
           "bg-yellow-400 animate-grow z-10": value === "S",
