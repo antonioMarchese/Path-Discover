@@ -16,7 +16,7 @@ export default class Maze {
   frontier: QueueFrontier | StackFrontier;
   exploredPath: Array<Coordinates>;
 
-  constructor(maze: CellProps[][]) {
+  constructor(maze: CellProps[][], frontier: QueueFrontier | StackFrontier) {
     //  Validation of start and goal
     const linearMaze = maze.reduce((acc, mazeRow) => [...acc, ...mazeRow], []);
     if (!linearMaze.find((node) => node.value === "A")) {
@@ -27,7 +27,7 @@ export default class Maze {
     }
 
     this.maze = maze;
-    this.frontier = new StackFrontier();
+    this.frontier = frontier;
     this.width = maze.length;
     this.height = maze[0].length;
     this.start = this.target = this.solution = null;

@@ -3,53 +3,44 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CaretDown } from "@phosphor-icons/react";
 import { useMazeStore } from "@/store/useMazeStore";
-import Maze from "@/solvers/maze";
-import { CandidatesProps, Coordinates } from "@/utils";
-import Node from "@/solvers/node";
+import { algorithms, customMaze } from "@/utils";
+import delay from "@/delay";
 
 const itemClass =
-  "rounded-[3px] flex items-center p-2 select-none outline-none data-[disabled]:pointer-events-none cursor-pointer hover:bg-zinc-200";
+  "rounded-[3px] flex items-center p-2 outline-none data-[disabled]:pointer-events-none cursor-pointer hover:bg-zinc-200";
 
 export default function Header() {
-  const { cells, setCellValue } = useMazeStore();
+  const { cells, setCellValue, algorithm, setAlgorithm, setCells } =
+    useMazeStore();
 
-  function solveMaze() {
-    const solver = new Maze(cells);
-    solver.solve();
-    console.info(solver.start);
-    console.info(solver.exploredPath);
-    for (const node of solver.exploredPath) {
-      setTimeout(() => {
-        if (
-          cells[node.row][node.col].value !== "A" &&
-          cells[node.row][node.col].value !== "B"
-        ) {
-          setCellValue(node.row, node.col, "E");
-        }
-      }, 800);
+  async function solveMaze() {
+    if (algorithm) {
+      await algorithm.solver(cells, setCellValue);
     }
-    console.info(solver.solution.cells);
-    for (const node of solver.solution.cells) {
-      setTimeout(() => {
-        if (
-          cells[node.row][node.col].value !== "A" &&
-          cells[node.row][node.col].value !== "B"
-        )
-          setCellValue(node.row, node.col, "S");
-      }, 800);
-    }
-    console.info({ cells });
+  }
+
+  async function handleGenerateMaze() {
+    setCells(customMaze);
   }
 
   return (
     <header className="w-full bg-zinc-900 p-5 text-white flex items-center justify-between">
       <h3 className="font-bold text-lg">Pathdiscover Visualizer</h3>
       <button
+        onClick={() => handleGenerateMaze()}
+        type="button"
+        className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md "
+      >
+        Generate Maze
+      </button>
+      <button
+        disabled={!algorithm}
         onClick={solveMaze}
         type="button"
-        className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md"
+        className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-md disabled:cursor-not-allowed disabled:opacity-55"
       >
         Visualize
+        {algorithm && <p>{algorithm.name}</p>}
       </button>
       <ul className="list-none flex items-center justify-between">
         <DropdownMenu.Root>
@@ -68,15 +59,15 @@ export default function Header() {
               className="min-w-[220px] bg-white rounded-md p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform] data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut transition-all text-black"
               sideOffset={5}
             >
-              <DropdownMenu.Item className={itemClass}>
-                Breath-First Search
-              </DropdownMenu.Item>
-              <DropdownMenu.Item className={itemClass}>
-                Depth-First Search
-              </DropdownMenu.Item>
-              <DropdownMenu.Item className={itemClass}>
-                A* Search
-              </DropdownMenu.Item>
+              {algorithms.map((alg, index) => (
+                <DropdownMenu.Item
+                  className={itemClass}
+                  key={index}
+                  onClick={() => setAlgorithm(alg)}
+                >
+                  {alg.name}
+                </DropdownMenu.Item>
+              ))}
 
               <DropdownMenu.Arrow className="fill-white" />
             </DropdownMenu.Content>

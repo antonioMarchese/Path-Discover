@@ -20,7 +20,9 @@ export default class StackFrontier implements AbstractFrontier {
   }
 
   containsState(state: any): boolean {
-    return this.frontier.some((node) => node.state === state);
+    return this.frontier.some(
+      (node) => node.state.col === state.col && node.state.row === state.row
+    );
   }
 
   empty(): boolean {
