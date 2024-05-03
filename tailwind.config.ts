@@ -17,6 +17,7 @@ const config: Config = {
         fadeIn: "show 150ms linear",
         fadeOut: "hide 150ms linear",
         grow: "growUp 500ms ease-out",
+        growWall: "growUp 250ms ease-out",
       },
       keyframes: {
         show: {

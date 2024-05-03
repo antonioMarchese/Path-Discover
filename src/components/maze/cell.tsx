@@ -2,8 +2,9 @@
 
 import { useElementsStore } from "@/store/elementsStore";
 import { useMazeStore } from "@/store/useMazeStore";
-import { Play, Target, Wall } from "@phosphor-icons/react";
+import { Play, Target } from "@phosphor-icons/react";
 import clsx from "clsx";
+import Wall from "./wallCell";
 
 /* 
   # -> Walls
@@ -24,7 +25,7 @@ export interface CellGridProps {
 const iconValueMapper = {
   A: <Play size={20} weight="fill" className="fill-green-400 z-50" />,
   B: <Target size={20} weight="fill" className="fill-red-400 z-50" />,
-  "#": <Wall weight="fill" className="fill-blue-400 w-full h-full z-50" />,
+  "#": <Wall />,
 };
 
 export default function Cell({ value, row, col, mouseDown }: CellGridProps) {
