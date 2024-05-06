@@ -4,11 +4,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Cell from "./cell";
 import { useMazeStore } from "@/store/useMazeStore";
 import { CellProps, generateInitialMaze } from "@/utils";
+import { useLanguageStore } from "@/store/useLanguageStore";
 
 export default function Grid() {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
 
+  const { selectedLanguage } = useLanguageStore();
   const { cells, setCells } = useMazeStore();
 
   function handleMouseDown() {
@@ -43,7 +45,7 @@ export default function Grid() {
         ref={titleRef}
         className="text-white text-center font-medium text-sm"
       >
-        Pick an algorithm and visualize it!
+        {selectedLanguage.texts.title}
       </h3>
       <div className="w-full h-full flex flex-col items-center justify-center gap-0">
         {cells.map((cellsRow: CellProps[], row) => (

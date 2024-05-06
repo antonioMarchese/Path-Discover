@@ -3,6 +3,7 @@ import { CandidatesProps, Coordinates, generateCandidates } from "@/utils";
 import StackFrontier from "./stackFrontier";
 import QueueFrontier from "./queueFrontier";
 import Node from "./node";
+import NoSolutionError from "@/errors/noSolutionError";
 
 export default class Maze {
   maze: CellProps[][];
@@ -11,7 +12,7 @@ export default class Maze {
   walls: Array<any>;
   start: Coordinates | null;
   target: Coordinates | null;
-  solution: any;
+  solution: Array<Coordinates>;
   exploredNum: number;
   frontier: QueueFrontier | StackFrontier;
   exploredPath: Array<Coordinates>;
@@ -26,16 +27,24 @@ export default class Maze {
       throw new Error("Maze must contain one target point");
     }
 
-    this.maze = maze;
+    this.maze = maze.map((cellsRow) =>
+      cellsRow.map((cell) => {
+        if (cell.value === "E" || cell.value === "S") {
+          return { value: null };
+        }
+        return { ...cell };
+      })
+    );
     this.frontier = frontier;
     this.height = maze.length;
     this.width = maze[0].length;
-    this.start = this.target = this.solution = null;
+    this.start = this.target = null;
     this.exploredNum = 0;
     this.exploredPath = new Array();
+    this.solution = new Array();
 
     //  Keep track of teh walls
-    this.walls = maze.map((mazeRow: CellProps[], row: number) =>
+    this.walls = this.maze.map((mazeRow: CellProps[], row: number) =>
       mazeRow.map((node: CellProps, col: number) => {
         try {
           if (node.value === "A") {
@@ -100,7 +109,7 @@ export default class Maze {
     //  Keep looping until solution found
     while (true) {
       if (this.frontier.empty()) {
-        throw new Error("No solution!");
+        throw new NoSolutionError("No solution for that maze!");
       }
 
       //  Chose a node from the frontier
@@ -113,21 +122,13 @@ export default class Maze {
         node.state.row === this.target?.row
       ) {
         node.isTarget = true;
-        let actions: any[] = [];
-        let cells: Coordinates[] = [];
 
         //  Follow parent nodes to find solution
         while (node.parent) {
-          actions = [...actions, node.action];
-          cells = [...cells, node.state];
+          this.solution.push(node.state);
           node = node.parent;
         }
-        actions.reverse();
-        cells.reverse();
-        this.solution = {
-          actions,
-          cells,
-        };
+        this.solution.reverse();
         return;
       }
 

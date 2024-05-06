@@ -24,7 +24,7 @@ export interface CellGridProps {
 
 const iconValueMapper = {
   A: <Play size={20} weight="fill" className="fill-green-400 z-50" />,
-  B: <Target size={20} weight="fill" className="fill-red-400 z-50" />,
+  B: <Target size={20} weight="fill" className="fill-green-300 z-50" />,
   "#": <Wall />,
 };
 
@@ -41,16 +41,17 @@ export default function Cell({ value, row, col, mouseDown }: CellGridProps) {
       handleClickCell();
     }
   }
+
   return (
     <button
       onMouseDown={handleClickCell}
       onMouseEnter={handleMouseEnter}
       type="button"
       className={clsx(
-        "flex items-center justify-center border border-1 border-zinc-200 w-5 h-5 cursor-pointer p-0",
+        "flex items-center justify-center border border-1 border-zinc-200 w-[25px] h-[25px] cursor-pointer p-0",
         {
-          "bg-red-500 animate-grow z-10": value === "E",
-          "bg-yellow-400 animate-grow z-10": value === "S",
+          "bg-blue-600 animate-grow z-10": value === "E",
+          "bg-green-400 animate-grow z-10": value === "S",
           // "bg-zinc-900 hover:bg-zinc-800 ": value === null,
         }
       )}

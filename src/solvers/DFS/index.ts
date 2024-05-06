@@ -5,7 +5,8 @@ import { CellTypes } from "@/components/maze/cell";
 
 export default function solverDFS(
   cells: CellProps[][],
-  setCellValue: (row: number, col: number, value: CellTypes) => void
+  setCellValue: (row: number, col: number, value: CellTypes) => void,
+  interval = 50
 ) {
-  return generalSolver(new StackFrontier(), cells, setCellValue);
+  return generalSolver(new StackFrontier(), cells, setCellValue, interval);
 }

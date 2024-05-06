@@ -5,7 +5,8 @@ import { CellTypes } from "@/components/maze/cell";
 
 export default function solverBFS(
   cells: CellProps[][],
-  setCellValue: (row: number, col: number, value: CellTypes) => void
+  setCellValue: (row: number, col: number, value: CellTypes) => void,
+  interval = 50
 ) {
-  return generalSolver(new QueueFrontier(), cells, setCellValue);
+  return generalSolver(new QueueFrontier(), cells, setCellValue, interval);
 }

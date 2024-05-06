@@ -1,3 +1,4 @@
+import { SpeedOption, speedOptions } from "@/components/header/speedSelector";
 import { CellTypes } from "@/components/maze/cell";
 import { AlgorithmsProps, CellProps, initialGrid } from "@/utils";
 import { create } from "zustand";
@@ -9,6 +10,9 @@ export type MazeStoreState = {
   setAlgorithm: (algorithm: AlgorithmsProps) => void;
   changeCellValue: (row: number, col: number, value: CellTypes) => void;
   setCellValue: (row: number, col: number, value: CellTypes) => void;
+  clearExploredPath: () => void;
+  speed: SpeedOption;
+  setSpeed: (speed: SpeedOption) => void;
 };
 
 export const useMazeStore = create<MazeStoreState>((set, get) => ({
@@ -51,4 +55,20 @@ export const useMazeStore = create<MazeStoreState>((set, get) => ({
 
       return { cells: newCells };
     }),
+  clearExploredPath: () =>
+    set((state) => {
+      const newCells = state.cells.map((cellsRow) =>
+        cellsRow.map((cell) => {
+          if (cell.value === "E" || cell.value === "S") {
+            return {
+              value: null,
+            };
+          }
+          return { ...cell };
+        })
+      );
+      return { cells: newCells };
+    }),
+  speed: speedOptions[1],
+  setSpeed: (speed: SpeedOption) => set(() => ({ speed })),
 }));

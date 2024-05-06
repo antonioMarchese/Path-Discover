@@ -1,5 +1,5 @@
 import ElementsSelector from "@/components/elements/elementsSelector";
-import Header from "@/components/header";
+import Header from "@/components/header/index";
 import Grid from "@/components/maze/grid";
 
 export default function Home() {

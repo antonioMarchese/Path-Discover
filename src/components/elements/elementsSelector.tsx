@@ -5,8 +5,10 @@ import Element from "./element";
 import { generateInitialMaze, selectElements } from "@/utils";
 import { useMazeStore } from "@/store/useMazeStore";
 import { useCallback } from "react";
+import { useLanguageStore } from "@/store/useLanguageStore";
 
 export default function ElementsSelector() {
+  const { selectedLanguage } = useLanguageStore();
   const { setCells } = useMazeStore();
 
   const calculateInitialMazeDimensions = useCallback(() => {
@@ -30,6 +32,7 @@ export default function ElementsSelector() {
           title={element.title}
           cellValue={element.cellValue}
           icon={element.icon}
+          portugueseTitle={element.portugueseTitle}
           key={element.title}
         />
       ))}
@@ -43,7 +46,7 @@ export default function ElementsSelector() {
           weight="fill"
           className="fill-red-500 group-hover:-rotate-180 duration-300"
         />
-        Clear Grid
+        {selectedLanguage.texts.clearButtonText}
       </button>
     </div>
   );

@@ -4,30 +4,41 @@ import QueueFrontier from "./queueFrontier";
 import StackFrontier from "./stackFrontier";
 import { CellTypes } from "@/components/maze/cell";
 import delay from "@/delay";
+import NoSolutionError from "@/errors/noSolutionError";
 
 export default async function generalSolver(
   frontier: StackFrontier | QueueFrontier,
   cells: CellProps[][],
-  setCellValue: (row: number, col: number, value: CellTypes) => void
+  setCellValue: (row: number, col: number, value: CellTypes) => void,
+  interval = 50
 ) {
   const solver = new Maze(cells, frontier);
-  solver.solve();
-  for (let node of solver.exploredPath) {
-    if (
-      cells[node.row][node.col].value !== "A" &&
-      cells[node.row][node.col].value !== "B"
-    ) {
-      setCellValue(node.row, node.col, "E");
+  try {
+    solver.solve();
+  } catch (error) {
+    if (error instanceof NoSolutionError) {
+      console.error(error.message);
+    } else {
+      console.error(error);
     }
-    await delay(50);
-  }
-  for (let node of solver.solution.cells) {
-    if (
-      cells[node.row][node.col].value !== "A" &&
-      cells[node.row][node.col].value !== "B"
-    ) {
-      setCellValue(node.row, node.col, "S");
+  } finally {
+    for (let node of solver.exploredPath) {
+      if (
+        cells[node.row][node.col].value !== "A" &&
+        cells[node.row][node.col].value !== "B"
+      ) {
+        setCellValue(node.row, node.col, "E");
+      }
+      await delay(interval);
     }
-    await delay(100);
+    for (let node of solver.solution) {
+      if (
+        cells[node.row][node.col].value !== "A" &&
+        cells[node.row][node.col].value !== "B"
+      ) {
+        setCellValue(node.row, node.col, "S");
+      }
+      await delay(100);
+    }
   }
 }

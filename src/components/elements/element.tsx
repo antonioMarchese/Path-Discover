@@ -4,9 +4,11 @@ import { ElementsTypes, useElementsStore } from "@/store/elementsStore";
 import { Icon } from "@phosphor-icons/react";
 import clsx from "clsx";
 import { CellTypes } from "../maze/cell";
+import { useLanguageStore } from "@/store/useLanguageStore";
 
 export interface ElementProps {
   title: ElementsTypes;
+  portugueseTitle?: string;
   cellValue: CellTypes;
   icon: Icon;
 }
@@ -15,7 +17,9 @@ export default function Element({
   title,
   icon: ElementIcon,
   cellValue,
+  portugueseTitle,
 }: ElementProps) {
+  const { selectedLanguage } = useLanguageStore();
   const { selectedElement, setSelectedElement } = useElementsStore();
 
   return (
@@ -43,7 +47,7 @@ export default function Element({
           "text-white fill-white": selectedElement.type !== title,
         })}
       />
-      {title}
+      {selectedLanguage.title === "en" ? title : portugueseTitle}
     </button>
   );
 }
