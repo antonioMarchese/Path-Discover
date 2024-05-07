@@ -1,9 +1,9 @@
 import { useLanguageStore } from "@/store/useLanguageStore";
 import GeneralDropdown from "../ui/dropdown";
-import { algorithms } from "@/utils";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { itemClass } from ".";
 import { useMazeStore } from "@/store/useMazeStore";
+import { algorithms } from "@/utils/choices";
 
 export default function AlgorithmSelector() {
   const { selectedLanguage } = useLanguageStore();

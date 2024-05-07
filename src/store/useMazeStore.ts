@@ -1,6 +1,7 @@
 import { SpeedOption, speedOptions } from "@/components/header/speedSelector";
 import { CellTypes } from "@/components/maze/cell";
-import { AlgorithmsProps, CellProps, initialGrid } from "@/utils";
+import { AlgorithmsProps } from "@/utils/choices";
+import { CellProps, initialGrid } from "@/utils/generateInitialMaze";
 import { create } from "zustand";
 
 export type MazeStoreState = {

@@ -2,10 +2,11 @@
 
 import { ArrowCounterClockwise } from "@phosphor-icons/react";
 import Element from "./element";
-import { generateInitialMaze, selectElements } from "@/utils";
+import { generateInitialMaze } from "@/utils/generateInitialMaze";
 import { useMazeStore } from "@/store/useMazeStore";
 import { useCallback } from "react";
 import { useLanguageStore } from "@/store/useLanguageStore";
+import { selectElements } from "@/utils/choices";
 
 export default function ElementsSelector() {
   const { selectedLanguage } = useLanguageStore();

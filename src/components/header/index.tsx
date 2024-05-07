@@ -1,9 +1,7 @@
 "use client";
 
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { CaretDown } from "@phosphor-icons/react";
 import { useMazeStore } from "@/store/useMazeStore";
-import { Coordinates, algorithms, generateInitialMaze } from "@/utils";
+import { Coordinates } from "@/utils/generateCandidates";
 import { useCallback } from "react";
 import recursiveDivisionMaze from "@/app/mazes/recursive";
 import delay from "@/delay";
@@ -11,6 +9,7 @@ import { useLanguageStore } from "@/store/useLanguageStore";
 import LanguageSelector from "./languageSelector";
 import AlgorithmSelector from "./algorithmSelector";
 import SpeedSelector from "./speedSelector";
+import { generateInitialMaze } from "@/utils/generateInitialMaze";
 
 export const itemClass =
   "rounded-[3px] flex items-center p-2 outline-none data-[disabled]:pointer-events-none cursor-pointer hover:bg-zinc-200";

@@ -1,18 +1,16 @@
 import { CellProps } from "@/utils/generateInitialMaze";
-import Maze from "./maze";
-import QueueFrontier from "./queueFrontier";
-import StackFrontier from "./stackFrontier";
 import { CellTypes } from "@/components/maze/cell";
 import delay from "@/delay";
 import NoSolutionError from "@/errors/noSolutionError";
+import GreedyFrontier from "../greedyFrontier";
+import GreedySolver from "./solver";
 
-export default async function generalSolver(
-  frontier: StackFrontier | QueueFrontier,
+export default async function greedySolver(
   cells: CellProps[][],
   setCellValue: (row: number, col: number, value: CellTypes) => void,
   interval = 50
 ) {
-  const solver = new Maze(cells, frontier);
+  const solver = new GreedySolver(cells, new GreedyFrontier());
   try {
     solver.solve();
   } catch (error) {

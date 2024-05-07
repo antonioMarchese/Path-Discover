@@ -1,15 +1,11 @@
-import { Coordinates } from "@/utils/generateCandidates";
-import StackFrontier from "./stackFrontier";
-import QueueFrontier from "./queueFrontier";
-import Node from "./node";
+import { Coordinates, generateCandidates } from "@/utils/generateCandidates";
+import Node from "../node";
 import NoSolutionError from "@/errors/noSolutionError";
-import {
-  CandidatesProps,
-  generateCandidates,
-} from "@/utils/generateCandidates";
+import GreedyFrontier from "../greedyFrontier";
+import { CandidatesProps } from "@/utils/generateCandidates";
 import { CellProps } from "@/utils/generateInitialMaze";
 
-export default class Maze {
+export default class GreedySolver {
   maze: CellProps[][];
   width: number;
   height: number;
@@ -18,10 +14,10 @@ export default class Maze {
   target: Coordinates | null;
   solution: Array<Coordinates>;
   exploredNum: number;
-  frontier: QueueFrontier | StackFrontier;
+  frontier: GreedyFrontier;
   exploredPath: Array<Coordinates>;
 
-  constructor(maze: CellProps[][], frontier: QueueFrontier | StackFrontier) {
+  constructor(maze: CellProps[][], frontier: GreedyFrontier) {
     //  Validation of start and goal
     const linearMaze = maze.reduce((acc, mazeRow) => [...acc, ...mazeRow], []);
     if (!linearMaze.find((node) => node.value === "A")) {
@@ -73,6 +69,16 @@ export default class Maze {
     );
   }
 
+  heuristic(node: Coordinates) {
+    if (this.start && this.target) {
+      return (
+        Math.abs(this.target.col - node.col) +
+        Math.abs(this.target.row - node.row)
+      );
+    }
+    return 0;
+  }
+
   neighbors(state: Coordinates): CandidatesProps[] {
     //  Get all possible actions
     const candidates: CandidatesProps[] = generateCandidates(
@@ -108,7 +114,10 @@ export default class Maze {
     //  Initialize frotier to just the starting position
     const startNode = new Node(this.start!, null, null);
     startNode.isStart = true;
-    this.frontier.add(startNode);
+    this.frontier.add({
+      node: startNode,
+      heuristicValue: this.heuristic(startNode.state),
+    });
 
     //  Keep looping until solution found
     while (true) {
@@ -116,7 +125,8 @@ export default class Maze {
         throw new NoSolutionError("No solution for that maze!");
       }
 
-      //  Chose a node from the frontier
+      //  Chose a node from the frontier, based on the heuristic value
+
       var node = this.frontier.remove();
       this.exploredNum += 1;
 
@@ -148,9 +158,11 @@ export default class Maze {
           !this.frontier.containsState(neighborState) &&
           !this.isNodeExplored(neighborState)
         ) {
-          this.frontier.add(
-            new Node(candidate.coordinates, node, candidate.action)
-          );
+          const child = new Node(candidate.coordinates, node, candidate.action);
+          this.frontier.add({
+            node: child,
+            heuristicValue: this.heuristic(child.state),
+          });
         }
       });
     }

@@ -25,7 +25,7 @@ export const speedOptions: SpeedOption[] = [
   {
     title: "Slow",
     portugueseTitle: "Devagar",
-    ms: 80,
+    ms: 300,
   },
 ];
 

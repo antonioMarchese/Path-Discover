@@ -1,4 +1,4 @@
-import { CellProps } from "@/utils";
+import { CellProps } from "@/utils/generateInitialMaze";
 import generalSolver from "../generalSolver";
 import StackFrontier from "../stackFrontier";
 import { CellTypes } from "@/components/maze/cell";

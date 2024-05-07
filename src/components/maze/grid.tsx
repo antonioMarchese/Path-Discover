@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Cell from "./cell";
 import { useMazeStore } from "@/store/useMazeStore";
-import { CellProps, generateInitialMaze } from "@/utils";
 import { useLanguageStore } from "@/store/useLanguageStore";
+import { CellProps, generateInitialMaze } from "@/utils/generateInitialMaze";
 
 export default function Grid() {
   const [isMouseDown, setIsMouseDown] = useState(false);

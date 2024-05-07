@@ -50,8 +50,8 @@ export default function Cell({ value, row, col, mouseDown }: CellGridProps) {
       className={clsx(
         "flex items-center justify-center border border-1 border-zinc-200 w-[25px] h-[25px] cursor-pointer p-0",
         {
-          "bg-blue-600 animate-grow z-10": value === "E",
-          "bg-green-400 animate-grow z-10": value === "S",
+          "bg-blue-600 animate-grow": value === "E",
+          "bg-green-400 animate-grow": value === "S",
           // "bg-zinc-900 hover:bg-zinc-800 ": value === null,
         }
       )}
