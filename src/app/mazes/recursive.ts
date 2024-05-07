@@ -1,5 +1,6 @@
 import Maze from "@/solvers/maze";
-import { CellProps, Coordinates } from "@/utils";
+import { Coordinates } from "@/utils/generateCandidates";
+import { CellProps } from "@/utils/generateInitialMaze";
 
 export default function recursiveDivisionMaze(
   board: CellProps[][],
