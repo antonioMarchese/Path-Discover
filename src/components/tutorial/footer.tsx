@@ -25,15 +25,19 @@ export default function TutorialFooter() {
             Prev
           </button>
         )}
-        {page < 4 && (
-          <button
-            onClick={() => setPage(page + 1)}
-            type="button"
-            className="p-2 hover:bg-zinc-200 rounded-md"
-          >
-            Next
-          </button>
-        )}
+        <button
+          onClick={() => {
+            if (page < 4) {
+              setPage(page + 1);
+            } else {
+              toggleModal();
+            }
+          }}
+          type="button"
+          className="p-2 hover:bg-zinc-200 rounded-md"
+        >
+          {page < 4 ? "Next" : "Finish"}
+        </button>
         <small className="absolute bottom-2 right-2">
           {page + 1}/{5}
         </small>
