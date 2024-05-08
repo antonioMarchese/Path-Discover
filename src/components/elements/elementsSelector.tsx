@@ -27,7 +27,7 @@ export default function ElementsSelector() {
   }, [setCells, generateInitialMaze]);
 
   return (
-    <div className="w-full py-2 flex items-center justify-between text-white">
+    <div className="w-full py-2 flex items-center justify-between text-white flex-wrap">
       {selectElements.map((element) => (
         <Element
           title={element.title}

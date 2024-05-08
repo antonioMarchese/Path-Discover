@@ -10,6 +10,7 @@ import LanguageSelector from "./languageSelector";
 import AlgorithmSelector from "./algorithmSelector";
 import SpeedSelector from "./speedSelector";
 import { generateInitialMaze } from "@/utils/generateInitialMaze";
+import Tutorial from "../tutorial/root";
 
 export const itemClass =
   "rounded-[3px] flex items-center p-2 outline-none data-[disabled]:pointer-events-none cursor-pointer hover:bg-zinc-200";
@@ -61,7 +62,7 @@ export default function Header() {
   }
 
   return (
-    <header className="w-full bg-zinc-900 p-5 text-white flex items-center justify-between flex-wrap">
+    <header className="w-full bg-zinc-900 p-5 text-white flex items-center justify-between flex-wrap gap-y-2">
       <h3 className="font-bold text-lg">Pathdiscover Visualizer</h3>
       <button
         onClick={handleGenerateMaze}
@@ -79,10 +80,12 @@ export default function Header() {
         {selectedLanguage.texts.visualizeButton}
         {algorithm && <p>{algorithm.name}</p>}
       </button>
-      <ul className="list-none flex items-center justify-between gap-4">
+      <ul className="list-none flex items-center justify-between gap-4 flex-wrap">
         <AlgorithmSelector />
         <SpeedSelector />
         <LanguageSelector />
+
+        <Tutorial />
       </ul>
     </header>
   );

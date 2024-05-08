@@ -33,7 +33,7 @@ export default class BaseSolver implements BaseFrontier {
     this.exploredPath = new Array();
     this.solution = new Array();
 
-    //  Keep track of teh walls
+    //  Keep track of the walls
     this.walls = this.maze.map((mazeRow: CellProps[], row: number) =>
       mazeRow.map((node: CellProps, col: number) => {
         try {

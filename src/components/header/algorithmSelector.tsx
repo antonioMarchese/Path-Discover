@@ -5,7 +5,13 @@ import { itemClass } from ".";
 import { useMazeStore } from "@/store/useMazeStore";
 import { algorithms } from "@/utils/choices";
 
-export default function AlgorithmSelector() {
+interface AlgorithmSelectorProps {
+  executable?: boolean;
+}
+
+export default function AlgorithmSelector({
+  executable = true,
+}: AlgorithmSelectorProps) {
   const { selectedLanguage } = useLanguageStore();
   const { setAlgorithm } = useMazeStore();
 
@@ -17,7 +23,11 @@ export default function AlgorithmSelector() {
         <DropdownMenuItem
           className={itemClass}
           key={index}
-          onClick={() => setAlgorithm(alg)}
+          onClick={() => {
+            if (executable) {
+              setAlgorithm(alg);
+            }
+          }}
         >
           {alg.name}
         </DropdownMenuItem>
