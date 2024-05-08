@@ -18,7 +18,7 @@ export const speedOptions: SpeedOption[] = [
     ms: 20,
   },
   {
-    title: "Medium",
+    title: "Avarage",
     portugueseTitle: "Médio",
     ms: 50,
   },

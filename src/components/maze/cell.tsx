@@ -5,6 +5,7 @@ import { useMazeStore } from "@/store/useMazeStore";
 import { Play, Target } from "@phosphor-icons/react";
 import clsx from "clsx";
 import Wall from "./wallCell";
+import { EXPLORED, SOLUTION } from "@/utils/types";
 
 /* 
   # -> Walls
@@ -23,8 +24,8 @@ export interface CellGridProps {
 }
 
 const iconValueMapper = {
-  A: <Play size={20} weight="fill" className="fill-green-400 z-50" />,
-  B: <Target size={20} weight="fill" className="fill-green-300 z-50" />,
+  A: <Play size={20} weight="fill" className="fill-green-400 absolute" />,
+  B: <Target size={20} weight="fill" className="fill-green-300 absolute" />,
   "#": <Wall />,
 };
 
@@ -48,15 +49,17 @@ export default function Cell({ value, row, col, mouseDown }: CellGridProps) {
       onMouseEnter={handleMouseEnter}
       type="button"
       className={clsx(
-        "flex items-center justify-center border border-1 border-zinc-200 w-[25px] h-[25px] cursor-pointer p-0",
+        "flex relative items-center justify-center border border-1 border-zinc-200 w-[25px] h-[25px] cursor-pointer p-0",
         {
-          "bg-blue-600 animate-grow": value === "E",
-          "bg-green-400 animate-grow": value === "S",
-          // "bg-zinc-900 hover:bg-zinc-800 ": value === null,
+          "bg-blue-700 animate-grow": value === "E",
+          "bg-green-400 animate-grow border-0": value === "S",
         }
       )}
     >
-      {value && value !== "E" && value !== "S" && iconValueMapper[value]}
+      {value &&
+        value !== EXPLORED &&
+        value !== SOLUTION &&
+        iconValueMapper[value]}
     </button>
   );
 }

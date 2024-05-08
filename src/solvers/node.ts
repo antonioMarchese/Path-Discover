@@ -6,6 +6,8 @@ export interface NodeProps {
   action: any;
   isStart: boolean;
   isTarget: boolean;
+  gScore: number;
+  fScore: number;
 }
 
 export default class Node implements NodeProps {
@@ -14,6 +16,8 @@ export default class Node implements NodeProps {
   action: any;
   isStart: boolean;
   isTarget: boolean;
+  gScore: number;
+  fScore: number;
 
   constructor(state: Coordinates, parent: NodeProps | null, action: any) {
     this.state = state;
@@ -21,5 +25,7 @@ export default class Node implements NodeProps {
     this.action = action;
     this.isStart = false;
     this.isTarget = false;
+    this.gScore = Infinity;
+    this.fScore = Infinity;
   }
 }

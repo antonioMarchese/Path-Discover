@@ -23,11 +23,6 @@ export default class GreedyFrontier implements AbstractGreedyFrontier {
 
   add(node: GreedyNodeProps): void {
     this.frontier.push(node);
-    console.info(this.frontier);
-    this.frontier.sort(
-      (nodeA, nodeB) => nodeA.heuristicValue - nodeB.heuristicValue
-    );
-    console.info({ sorted: this.frontier });
   }
 
   containsState(state: Coordinates): boolean {
@@ -47,7 +42,18 @@ export default class GreedyFrontier implements AbstractGreedyFrontier {
       throw new Error("Empty frontier");
     }
 
-    const minHeuristicValueNode = this.frontier.splice(0, 1)[0];
+    const minHeuristicValueNode = this.frontier.reduce((acc, greedyNode) => {
+      if (greedyNode.heuristicValue <= acc.heuristicValue) {
+        return greedyNode;
+      }
+      return acc;
+    }, this.frontier[0]);
+
+    this.frontier = this.frontier.filter(
+      (greedyNode) =>
+        greedyNode.node.state.col !== minHeuristicValueNode.node.state.col ||
+        greedyNode.node.state.row !== minHeuristicValueNode.node.state.row
+    );
 
     return minHeuristicValueNode.node;
   }

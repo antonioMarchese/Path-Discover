@@ -1,23 +1,35 @@
-import StackFrontier from "./stackFrontier";
-import QueueFrontier from "./queueFrontier";
-import Node from "./node";
-import NoSolutionError from "@/errors/noSolutionError";
-import { CandidatesProps } from "@/utils/generateCandidates";
 import { CellProps } from "@/utils/generateInitialMaze";
+import { CandidatesProps, Coordinates } from "@/utils/generateCandidates";
+import Node from "../node";
+import NoSolutionError from "@/errors/noSolutionError";
 import BaseSolver from "@/utils/baseSolver";
+import AStarFrontier from "./frontier";
 
-export default class Maze extends BaseSolver {
-  frontier: QueueFrontier | StackFrontier;
+export default class AStarSolver extends BaseSolver {
+  frontier: AStarFrontier;
 
-  constructor(maze: CellProps[][], frontier: QueueFrontier | StackFrontier) {
+  constructor(maze: CellProps[][]) {
     super(maze);
-    this.frontier = frontier;
+    this.frontier = new AStarFrontier();
   }
 
-  solve() {
+  heuristic(currentNode: Coordinates, targetNode = this.target) {
+    if (targetNode) {
+      return (
+        Math.abs(targetNode.col - currentNode.col) +
+        Math.abs(targetNode.row - currentNode.row)
+      );
+    }
+    return 0;
+  }
+
+  solve(): void {
     //  Initialize frotier to just the starting position
     const startNode = new Node(this.start!, null, null);
     startNode.isStart = true;
+    startNode.gScore = 0;
+    startNode.fScore = this.heuristic(startNode.state);
+
     this.frontier.add(startNode);
 
     //  Keep looping until solution found
@@ -26,7 +38,8 @@ export default class Maze extends BaseSolver {
         throw new NoSolutionError("No solution for that maze!");
       }
 
-      //  Chose a node from the frontier
+      //  Chose a node from the frontier, based on the heuristic value
+
       var node = this.frontier.remove();
       this.exploredNum += 1;
 
@@ -54,13 +67,19 @@ export default class Maze extends BaseSolver {
       //  Add neighbors to the frontier
       this.neighbors(node.state).forEach((candidate: CandidatesProps) => {
         const neighborState = candidate.coordinates;
-        if (
-          !this.frontier.containsState(neighborState) &&
-          !this.isNodeExplored(neighborState)
-        ) {
-          this.frontier.add(
-            new Node(candidate.coordinates, node, candidate.action)
-          );
+        const child = new Node(candidate.coordinates, node, candidate.action);
+        const tentativeScore =
+          node.gScore + this.heuristic(node.state, neighborState);
+
+        if (tentativeScore < child.gScore) {
+          child.gScore = tentativeScore;
+          child.fScore = this.heuristic(child.state) + tentativeScore;
+          if (
+            !this.frontier.containsState(neighborState) &&
+            !this.isNodeExplored(neighborState)
+          ) {
+            this.frontier.add(child);
+          }
         }
       });
     }
