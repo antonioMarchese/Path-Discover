@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# PathDiscover Visualizer
+
+Welcome to PathDiscover Visualizer! This application is designed to help you understand various path-finding algorithms by visualizing their operations on a 2D grid. Whether you're a beginner or an experienced coder, this tool will provide an interactive platform to explore and learn.
+
+## Features
+
+- Pick an Algorithm: Choose from a selection of path-finding algorithms to visualize how they find paths between two points on the grid.
+- Generate Maze: Quickly create a random maze on the grid for testing and visualization purposes.
+- Customize Speed: Adjust the visualization speed to your preference for better understanding.
+- Clear Grid: Start fresh by clearing the grid to remove any existing nodes or walls.
 
 ## Getting Started
 
-First, run the development server:
+1. Placing Walls: Begin by selecting the "Wall Node" option. Click and drag to create walls on the grid, or use the "Generate Maze" button to create a random maze.
+2. Selecting Start and Target Nodes: Choose the "Start Node" to set the starting point and the "Target Node" to set the goal.
+3. Selecting an Algorithm: After setting the start and target nodes, click on the "Algorithms" button to choose an algorithm from the list.
+4. Visualizing it!: Once you've selected an algorithm, click on the "Visualize" button to see how it operates in finding the shortest path.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tutorial
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If you're new to path-finding algorithms or need a refresher, you can follow the tutorial provided within the application. The tutorial will guide you through the basic steps of using the visualizer effectively.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Feedback
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+I'm constantly striving to improve the PathDiscover Visualizer. If you have any feedback, suggestions, or encounter any issues, feel free to reach out to me.
