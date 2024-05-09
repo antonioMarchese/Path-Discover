@@ -21,10 +21,12 @@ export default {
     'Once you have a "Start Node" and a "Target Node", you can click on the algorithms button and choose one of them to see how it works.',
   tutorialPage4:
     "Now, all you need to do is click on the visualize button. Have fun!",
-  tutorialPage5:
-    "Now, all you need to do is click on the visualize button. Have fun!",
   tutorialPage1Title: "Placing Walls",
   tutorialPage2Title: "Selecting Start and Target Nodes",
   tutorialPage3Title: "Selecting an Algorithm",
   tutorialPage4Title: "Visualizing it!",
+  nextPageTutorialButton: "Next",
+  prevPageTutorialButton: "Prev",
+  finishTutorialButton: "Finish",
+  skipTutorialButton: "Skip tutorial",
 } as LanguageTexts;

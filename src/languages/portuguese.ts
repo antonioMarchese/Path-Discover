@@ -18,6 +18,10 @@ export interface LanguageTexts {
   tutorialPage3Title: string;
   tutorialPage4: string;
   tutorialPage4Title: string;
+  skipTutorialButton: string;
+  nextPageTutorialButton: string;
+  prevPageTutorialButton: string;
+  finishTutorialButton: string;
 }
 
 export const portugueseTexts: LanguageTexts = {
@@ -45,4 +49,8 @@ export const portugueseTexts: LanguageTexts = {
   tutorialPage2Title: "Selecionando Partida e Chegada",
   tutorialPage3Title: "Selecionando um Algoritmo",
   tutorialPage4Title: "Visualizando!",
+  nextPageTutorialButton: "Próx.",
+  prevPageTutorialButton: "Voltar",
+  finishTutorialButton: "Finalizar",
+  skipTutorialButton: "Pular tutorial",
 };
