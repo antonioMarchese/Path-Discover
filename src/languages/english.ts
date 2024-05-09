@@ -12,7 +12,7 @@ export default {
   speedButon: "Speed",
   tutorialTitle: "Welcome to PathDiscover Visualizer!",
   tutorialPage0:
-    'This application ilustrates how some path-find algorithms works; how they search for a path between two points. All of the algorithms here are adapted for a 2D grid, where 90 degree turns have a "cost" of 1 and movements from a node to another have a "cost" of 1.',
+    'This application illustrates how some path-find algorithms works; how they search for a path between two points. All of the algorithms here are adapted for a 2D grid, where 90 degree turns have a "cost" of 1 and movements from a node to another have a "cost" of 1.',
   tutorialPage1:
     'You can start by selecting the "Wall Node". Then, you can click and drag to create walls all over the board. You can also click on "Generate Maze" to create a random maze. If you need to break some walls, just select "Start Node" or "Target Node" and click on it. After that, just replace your node.',
   tutorialPage2:
